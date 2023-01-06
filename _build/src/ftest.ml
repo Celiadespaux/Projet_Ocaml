@@ -1,6 +1,7 @@
 open Gfile
 open Tools
 open Ford_Fulkerson
+open Moneysharing
 
 let () =
 
@@ -29,8 +30,8 @@ let () =
 
   (* Open file *)
   let graph = from_file infile in
-  let graphf = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 3 5 in
-  (*let grr = (graphresiduel (gmap graph (fun x -> int_of_string x)) ) in *)
+  (*let graphr = graphresiduel (gmap graph (fun x -> int_of_string x)) in *)
+  let graphf = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 5 in
 
 
   (* Rewrite the graph that has been read. *)

@@ -1,1 +1,1 @@
-src/ftest.ml: Array Ford_Fulkerson Gfile Printf Sys Tools
+src/ftest.ml: Array Ford_Fulkerson Gfile Moneysharing Printf Sys Tools

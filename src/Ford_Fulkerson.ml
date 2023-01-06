@@ -9,31 +9,22 @@ let graphresiduel graph =
 ;;
 
 
-(*
-arc(x,y).   
-chemin(X,Y) :- arc(X,Y) 
-chemin(A,B) :- arc(A,Z), chemin(Z,B)
-*)
-
 let parcours graph id1 id2 = 
-
   let rec pl graph id1 id2 li ls =
-    if (find_arc graph id1 id2 != None && find_arc graph id1 id2 != Some 0 ) then match ls with 
+    if not((find_arc graph id1 id2 = None) ||  (find_arc graph id1 id2 = Some 0) ) then match ls with 
       |None -> Some [id2 ; id1]
       |Some l -> Some (id2::l)
     else
-      let rec f acu = function
-        |[] -> acu 
-        |(x,0)::rest -> f acu rest
-        |(x,_)::rest -> if (List.mem x li) then f acu rest else f (x::acu) rest
-      in
-      let rec fa = function 
-        | [] -> None 
-        | y::r -> match pl graph y id2 (y::li) (Some(y:: (match ls with |None -> [] |Some l -> l))) with 
-            |None -> fa r 
-            |Some x-> Some x
+      let rec f = function
+        |[] -> None
+        |(x,0) :: r -> f r 
+        |(y,_) :: r -> if (List.mem y li) then
+                f r
+            else match (pl graph y id2 (y::li) (match ls with |None -> Some (y::[id1]) |Some l -> Some (y::l))) with
+                |None -> f r 
+                |Some x -> Some x
     in
-      fa (f [] (out_arcs graph id1) )
+      f (out_arcs graph id1) 
   in
   match (pl graph id1 id2 [] (None)) with
   |None -> None 
@@ -51,9 +42,9 @@ let rec printlist = function
 
 let rec maxflot graph = function
   |[] -> max_int
-  |[x] -> max_int
+  |[x] -> x
   |x::y::r ->  match (find_arc graph x y) with
-    |None -> 0
+    |None -> max_int
     |Some x -> min x (maxflot graph (y::r))
 ;;
 
@@ -83,13 +74,14 @@ let ford_fulkerson graph id1 id2 =
   let rec ford graphr id1 id2 =
     let rec parcourslist = parcours graphr id1 id2 in
     match parcourslist with 
-    |None -> export "outfilexport3" (gmap graphr (fun x -> string_of_int x)) ;
-            resi_to_flot graph graphr 
-    |Some l ->
+    |None -> resi_to_flot graph graphr 
+    |Some [] ->resi_to_flot graph graphr
+    |Some l ->  
       let flot = maxflot graphr l in
-      Printf.printf ("%i\n") flot ;
       let graphmod = modifyflot graphr flot l in
-      ford graphmod id1 id2 
+      if (flot=0) then
+          resi_to_flot graph graphr
+      else ford graphmod id1 id2 
   in
   ford graphres id1 id2 
 ;;
