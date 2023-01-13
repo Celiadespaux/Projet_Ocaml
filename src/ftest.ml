@@ -23,18 +23,17 @@ let () =
   let infile = Sys.argv.(1)
   and outfile = Sys.argv.(4)
 
-  (* These command-line arguments are not used for the moment. *)
+ 
   and _source = int_of_string Sys.argv.(2)
   and _sink = int_of_string Sys.argv.(3)
   in
 
   (* Open file *)
   let graph = from_file infile in
-  (*let graphr = graphresiduel (gmap graph (fun x -> int_of_string x)) in *)
+  (*Les deux derniers arguments sont les points de départ et d'arrivée où nous souhaitons augmenter le flot *)
   let graphf = ford_fulkerson (gmap graph  (fun x -> int_of_string x)) 0 5 in
 
 
-  (* Rewrite the graph that has been read. *)
   let () =  write_file outfile graph ;
     export "outfilexport" graph ;
     export "outfilexport2" graphf ;
