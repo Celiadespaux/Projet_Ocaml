@@ -8,4 +8,4 @@ Pour tester notre algorythme, il est nécessaire d'utiliser le makefile. La comm
 Pour changer l'expérience et ajouter du flot entre des points différents (par défaut nous avons mis entre 0 et 5), il faut aller dans ftest.ml, et modifier les numéro des noeuds à la ligne 34.
 
 Fichier moneysharing :
-Ce fichier n'est actuellement pas utilisé dans notre projet. Il résulte de notre début de réflexion et premières idées à propos du problème de money sharing proposé. Il n'est dans l'état pas encore testable et utilisable.
+Ce fichier n'est actuellement pas utilisé dans notre projet. Il résulte de notre début de réflexion et premières idées à propos du problème de money sharing proposé. Il n'est pas encore dans un état testable ni utilisable.
